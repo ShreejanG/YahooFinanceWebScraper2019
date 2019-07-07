@@ -2,7 +2,7 @@
 """
 Created on Wed May 15 17:54:24 2019
 
-@author: shree
+@author: Shreejan Gupta <sg3gj@virginia.edu> 
 """
 
 import bs4
@@ -24,31 +24,43 @@ def praseTicker(ticker):
     price = soup.find_all('div',{'class': 'My(6px) Pos(r) smartphone_Mt(6px)' })[0].find('span').text
     summary_data.update({'Price' : price})
 
+    # prase stock information from the left side of summary table 
     left_table = soup.find_all('div', {'class': 'D(ib) W(1/2) Bxz(bb) Pend(12px) Va(t) ie-7_D(i) smartphone_D(b) smartphone_W(100%) smartphone_Pend(0px) smartphone_BdY smartphone_Bdc($c-fuji-grey-c)'})[0]
     left_data = left_table.find_all('td')
 
-    a = 0
-    while a < 8:
-        summary_data.update({left_data[a].find('span').text: left_data[a+1].find('span').text})
-        a += 2
+    # update summary_data with prased data
+    index = 0 
+    while index < len(left_data): 
+        first = left_data[index].find('span')
+        second = left_data[index + 1].find('span')
+        if (first is None or second is None): 
+            summary_data.update({left_data[index].text: left_data[index+1].text})
+        elif (first is not None and second is None): 
+            summary_data.update({first.text: left_data[index+1].text})
+        elif (first is None and second is not None): 
+            summary_data.update({left_data[index].text: second.text})
+        else: 
+            summary_data.update({first.text: second.text})
+        index += 2
 
-    b = 8
-    while b < 16:
-        summary_data.update({left_data[b].text: left_data[b+1].text})
-        b += 2
-
+    # prase stock information from the right side of summary table
     right_table = soup.find_all('div', {'class': 'D(ib) W(1/2) Bxz(bb) Pstart(12px) Va(t) ie-7_D(i) ie-7_Pos(a) smartphone_D(b) smartphone_W(100%) smartphone_Pstart(0px) smartphone_BdB smartphone_Bdc($c-fuji-grey-c)'})[0]
     right_data = right_table.find_all('td')
 
-    i = 0
-    while i < 10:
-        summary_data.update({right_data[i].find('span').text: right_data[i+1].find('span').text})
-        i += 2
-
-    j = 10
-    while j < 16:
-        summary_data.update({right_data[j].text: right_data[j+1].text})
-        j += 2
+    # update summary_data with prased data
+    index = 0 
+    while index < len(right_data): 
+        first = right_data[index].find('span')
+        second = right_data[index + 1].find('span')
+        if (first is None or second is None): 
+            summary_data.update({right_data[index].text: right_data[index+1].text})
+        elif (first is not None and second is None): 
+            summary_data.update({first.text: right_data[index+1].text})
+        elif (first is None and second is not None): 
+            summary_data.update({right_data[index].text: second.text})
+        else: 
+            summary_data.update({first.text: second.text})
+        index += 2
 
     return summary_data
 
@@ -57,8 +69,8 @@ if __name__=="__main__":
     argparser.add_argument('ticker',help = '')
     args = argparser.parse_args()
     ticker = args.ticker
-    print ("Parsing %s"%(ticker))
+    print ("parsing information for %s"%(ticker))
     scraped_data = praseTicker(ticker)
-    print ("Creating File")
+    print ("creating summary file for %s"%(ticker))
     with open('%s.json'%(ticker),'w') as fp:
         json.dump(scraped_data,fp,indent = 4)
