@@ -1,0 +1,19 @@
+
+Price 1,131.59
+Previous Close 1,121.58
+Open 1,117.80
+Bid 1,130.52 x 1000
+Ask 1,131.43 x 900
+Day's Range 1,116.14 - 1,132.82
+52 Week Range 970.11 - 1,289.27
+Volume 1,264,540
+Avg. Volume 1,528,656
+Market Cap 786.092B
+Beta (3Y Monthly) 0.99
+PE Ratio (TTM) 28.39
+EPS (TTM) 39.86
+Earnings Date N/A
+Forward Dividend  Yield N/A (N/A)
+Ex-Dividend Date N/A
+1y Target Est 1,275.00
+creating summary file for GOOG

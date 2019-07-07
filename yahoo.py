@@ -15,8 +15,8 @@ import json
 import argparse
 from collections import OrderedDict
 
-
 def praseTicker(ticker):
+    
     summary_data = OrderedDict()
     r=requests.get('https://finance.yahoo.com/quote/' + ticker + '?p=' + ticker)
     soup=bs4.BeautifulSoup(r.text,"xml")
@@ -64,6 +64,21 @@ def praseTicker(ticker):
 
     return summary_data
 
+def filterStock(scraped_data): 
+
+    retValue = True
+
+    # Filter stocks with specified criterion
+    for key, value in scraped_data.items(): 
+        # print (key, value)
+        if (key == 'PE Ratio (TTM)'): 
+            if (value == 'N/A'): 
+                retValue = False
+            elif (float(value) > 20.00): 
+                retValue = False
+
+    return retValue
+
 if __name__=="__main__":
     argparser = argparse.ArgumentParser()
     argparser.add_argument('ticker',help = '')
@@ -71,6 +86,11 @@ if __name__=="__main__":
     ticker = args.ticker
     print ("parsing information for %s"%(ticker))
     scraped_data = praseTicker(ticker)
-    print ("creating summary file for %s"%(ticker))
-    with open('%s.json'%(ticker),'w') as fp:
-        json.dump(scraped_data,fp,indent = 4)
+    toExport = filterStock(scraped_data); 
+
+    if (toExport): 
+        print ("creating summary file for %s"%(ticker))
+        with open('%s.json'%(ticker),'w') as fp:
+            json.dump(scraped_data,fp,indent = 4)
+    else: 
+        print('stock does not meet specified criteria')
