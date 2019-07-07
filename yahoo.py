@@ -14,6 +14,8 @@ from lxml import html
 import json
 import argparse
 from collections import OrderedDict
+
+
 def praseTicker(ticker):
     summary_data = OrderedDict()
     r=requests.get('https://finance.yahoo.com/quote/' + ticker + '?p=' + ticker)
