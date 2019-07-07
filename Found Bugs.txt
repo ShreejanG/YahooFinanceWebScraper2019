@@ -1,3 +1,4 @@
 GOOG Stock Ticker: 
 1. If .text doesn't execute, failed to create a file
 2. N/A fields in the summary data table
+-- Fixed July 7, 2019
