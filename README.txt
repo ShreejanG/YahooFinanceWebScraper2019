@@ -2,5 +2,5 @@
 
 
 Automated Web Scraper for Stocks on Yahoo Finance
-Author : Shreejan Gupta <guptavirginia.edu> 
+Author : Shreejan Gupta <gupt@avirginia.edu> 
 * Personal Project #1
